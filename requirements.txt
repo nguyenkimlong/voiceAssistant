@@ -1,0 +1,8 @@
+nltk
+pandas
+keras
+speech_recognition
+pygame
+numpy
+pickle
+gtts
