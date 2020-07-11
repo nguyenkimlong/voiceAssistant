@@ -3,4 +3,4 @@ Trợ lý ảo
 
 |Title       |Voice Assictant|
 |-----------|---------------|
-|Team       |
+|Team       |Nguyễn Kim Long nguyenkimlong95@gmail.com|
