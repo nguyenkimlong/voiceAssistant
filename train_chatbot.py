@@ -34,27 +34,6 @@ for intent in intents['intents']:
         if intent['tag'] not in classes:
             classes.append(intent['tag'])
 
-# # read data train
-# df = pd.read_excel('data/dialog_talk_agent.xlsx')
-# df.head(20)
-# df.shape[0]
-# df.ffill(axis=0, inplace=True)  # fills the null value with the previous value.
-# # df
-# df = pd.DataFrame(df)
-
-# for label, _patterns in df.iterrows():
-#     # tokenize each word
-#     if not type(_patterns['Context']) == str:
-#         continue
-#     w = nltk.word_tokenize(_patterns['Context'])
-#     words.extend(w)
-#     # add documents in the corpus
-#     documents.append((w, "Context_ask"))
-
-#     # add to our classes list
-#     if "Context_ask" not in classes:
-#         classes.append("Context_ask")
-
 
 # lemmaztize and lower each word and remove duplicates
 words = [lemmatizer.lemmatize(w.lower())
@@ -98,12 +77,13 @@ for doc in documents:
 # shuffle our features and turn into np.array
 random.shuffle(training)
 training = np.array(training)
+
 # create train and test lists. X - patterns, Y - intents
 train_x = list(training[:, 0])
 train_y = list(training[:, 1])
 print("Training data created")
-
-
+# print (train_y[0])
+# print (train_y.shape())
 # Create model - 3 layers. First layer 128 neurons, second layer 64 neurons and 3rd output layer contains number of neurons
 # equal to number of intents to predict output intent with softmax
 model = Sequential()
@@ -111,12 +91,16 @@ model.add(Dense(128, input_shape=(len(train_x[0]),), activation='relu'))
 model.add(Dropout(0.5))
 model.add(Dense(64, activation='relu'))
 model.add(Dropout(0.5))
-model.add(Dense(len(train_y[0]), activation='softmax'))
+
+# model.add(Dense(len(train_y[0]), activation='softmax'))
+model.add(Dense(len(train_y[0]), activation='sigmoid'))
 
 # Compile model. Stochastic gradient descent with Nesterov accelerated gradient gives good results for this model
 sgd = SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
-model.compile(loss='categorical_crossentropy',
-              optimizer=sgd, metrics=['accuracy'])
+# model.compile(loss='categorical_crossentropy',
+#               optimizer=sgd, metrics=['accuracy'])
+model.compile(loss='binary_crossentropy',
+              optimizer='adam', metrics=['accuracy'])
 
 # fitting and saving the model
 hist = model.fit(np.array(train_x), np.array(train_y),

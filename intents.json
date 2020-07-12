@@ -2002,9 +2002,18 @@
         "It sure was. Don't be a stranger!",
         "Thanks for dropping by!",
         "As usual. Let's do it again soon."
-
-
-
+      ],
+      "context": [
+        ""
+      ]
+    },
+    {
+      "tag": "QA60",
+      "patterns": [
+      "Have you eaten yet"
+      ],
+      "responses": [
+        "ate"
       ],
       "context": [
         ""
